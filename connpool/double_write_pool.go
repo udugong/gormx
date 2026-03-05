@@ -67,7 +67,7 @@ func (p *DoubleWritePool) BeginTx(ctx context.Context, opts *sql.TxOptions) (gor
 		return &DoubleWriteTx{src: src, dst: dst, logger: p.logger, pattern: pattern}, nil
 	case PatternDstOnly:
 		dst, err := p.dst.(gorm.TxBeginner).BeginTx(ctx, opts)
-		return &DoubleWriteTx{dst: dst}, err
+		return &DoubleWriteTx{dst: dst, logger: p.logger, pattern: pattern}, err
 	default:
 		return nil, errUnknownPattern
 	}
